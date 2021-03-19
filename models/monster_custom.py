@@ -1,3 +1,8 @@
+""" We can define some custom classes based on our main Monster class.
+
+For brevity reasons, I kept them very simple. Yours would be more complicated.
+"""
+
 from .monster import Monster
 
 

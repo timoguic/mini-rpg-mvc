@@ -1,44 +1,53 @@
 import pygame
 
+from constants import HERO_OFFSET, SHOP_BUTTON_OFFSET, WHITE
 from models import Shop
 
 
 class MainView:
-    WINDOW_SIZE = (800, 600)
-    SHOP_BUTTON_XY = (10, 10)
-    HERO_XY = (0, 300)
-    MONSTER_TEAM_XY = (450, 600)
+    """The main view
+
+    It is divided in two areas: hero + shop button on the left side,
+    and monsters on the right side.
+    """
 
     def __init__(self, window, hero):
         self._window = window
         self._hero = hero
         self._team = None
 
-        self._team_surface = pygame.Surface((450, 600))
-        self._team_surface.fill((240, 240, 255))
         self._shop_button = Shop.get_button_image()
 
     def attach_team(self, team):
         self._team = team
 
     def display(self):
-        self._window.fill((255, 255, 255))
-        self._window.blit(self._shop_button, self.SHOP_BUTTON_XY)
-        self._hero.update()
-        self._window.blit(self._hero.image, self.HERO_XY)
+        # Paints the window white
+        self._window.fill(WHITE)
+        # Show shop button
+        self._window.blit(self._shop_button, SHOP_BUTTON_OFFSET)
 
+        # Update the Hero sprite and display it
+        self._hero.update()
+        self._window.blit(self._hero.image, HERO_OFFSET)
+
+        # Update the monsters sprite group and display it
         self._team.update()
         self._team.draw(self._window)
 
         pygame.display.flip()
 
     def has_clicked_shop(self, pos):
+        # Did we click on the shop button?
         if self._shop_button.get_rect().collidepoint(pos):
             return True
 
         return False
 
     def get_clicked_monster(self, pos):
+        # Did we click on a monster?
+        # We use sprite collisions, and return the clicked monster.
+
         for monster in self._team.sprites():
             if monster.rect.collidepoint(pos):
                 return monster

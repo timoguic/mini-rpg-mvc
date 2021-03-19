@@ -1,8 +1,16 @@
+""" This module defines the items available in the shop """
+
+from abc import ABC, abstractmethod
+
 import pygame
 
 
-class ShopItem:
-    pass
+class ShopItem(ABC):
+    """ Your shop items must define the use method """
+
+    @abstractmethod
+    def use(self, hero):
+        pass
 
 
 class Sword(ShopItem):
